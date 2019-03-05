@@ -1,0 +1,26 @@
+db:
+  image: mysql:5.7
+  ports:
+  - "3306:3306"
+  volumes:
+  - ./var/mysql:/var/lib/mysql
+  environment:
+  - MYSQL_DATABASE=db
+  - MYSQL_USER=dbuser
+  - MYSQL_PASSWORD=mysql123
+  - MYSQL_ROOT_PASSWORD=mysql123
+
+
+nginx:
+  image: nginx:latest
+  ports:
+  - 8080:80
+  volumes:
+  - ./src:/code
+  - ./nginx.conf:/etc/nginx/nginx.conf
+  links:
+  - php
+php:
+  build: './docker/php'
+  volumes:
+  - ./src:/code
